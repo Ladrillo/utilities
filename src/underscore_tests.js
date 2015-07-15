@@ -97,31 +97,64 @@ var _ = {};
     // a certain property in it. E.g. take an array of people and return
     // an array of just their ages
     _.pluck = function (array, propertyName) {
+        var values = [], k;
+        array.forEach(function (o) {
+            for (k in o) {
+                if (k === propertyName) values.push(o[k]);
+            }
+        });
+        return values;
     };
 
     // Calls the method named by methodName on each value in the list.
     _.invoke = function (list, methodName, args) {
+        var result = [];
+        list.forEach(function (elem) {
+            result.push(elem[methodName](args));
+        });
+        return result;
     };
 
     // Reduces an array or object to a single value by repetitively calling
     // iterator(previousValue, item) for each item. previousValue should be
     // the return value of the previous iterator call.
     _.reduce = function (collection, iterator, initialValue) {
+
     };
 
     // Determine if the array or object contains a given value (using `===`).
     _.contains = function (collection, target) {
+        var i;
+        for (i in collection) {
+            if (collection[i] === target) return true;
+        }
+        return false;
     };
 
 
     // Determine whether all of the elements match a truth test.
     _.every = function (collection, iterator) {
+        var i;
+        for (i in collection) {
+            if (!iterator(collection[i])) {
+                return false;
+            }
+        }
+        return true;
     };
 
     // Determine whether any of the elements pass a truth test. If no iterator is
     // provided, provide a default one
     _.some = function (collection, iterator) {
+        var i;
+        for (i in collection) {
+            if (iterator(collection[i])) {
+                return true;
+            }
+        }
+        return false;
     };
+
 
 
     /**
