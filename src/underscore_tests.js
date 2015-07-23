@@ -178,14 +178,14 @@ var _ = {};
 
     // Extend a given object with all the properties of the passed in
     // object(s).
-    _.extend = function (obj1) {
+    _.extend = function (obj) {
         for (var i = 1; i < arguments.length; i++) {
             var o = arguments[i];
             for (var k in o) {
-                obj1[k] = o[k];
+                obj[k] = o[k];
             }
         }
-        return obj1;
+        return obj;
     };
 
 
@@ -195,13 +195,10 @@ var _ = {};
         for (var i = 1; i < arguments.length; i++) {
             var o = arguments[i];
             for (var k in o) {
-                if ()
-                obj1[k] = o[k];
+                if (!(k in obj)) obj[k] = o[k];
             }
         }
-        return obj1;
-
-
+        return obj;
     };
 
 
