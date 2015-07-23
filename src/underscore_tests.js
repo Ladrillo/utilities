@@ -110,6 +110,9 @@ var _ = {};
     _.invoke = function (list, methodName, args) {
         var result = [];
         list.forEach(function (elem) {
+            if (typeof methodName === 'function') {
+                result.push(methodName.apply(elem, args));
+            }
             result.push(elem[methodName](args));
         });
         return result;
@@ -137,24 +140,27 @@ var _ = {};
         return false;
     };
 
-
     // Determine whether all of the elements match a truth test.
     _.every = function (collection, iterator) {
         var i;
-        for (i in collection) {
-            if (!iterator(collection[i])) {
-                return false;
+        if (iterator) {
+            for (i in collection) {
+                if (!iterator(collection[i])) return false;
+                return true;
             }
         }
-        return true;
+        for (i in collection) {
+            if (!collection[i]) return false;
+            return true;
+        }
     };
 
     // Determine whether any of the elements pass a truth test. If no iterator is
     // provided, provide a default one
     _.some = function (collection, iterator) {
-        var i;
+        var i, it = iterator || function (e) { return !!e; };
         for (i in collection) {
-            if (iterator(collection[i])) {
+            if (it(collection[i])) {
                 return true;
             }
         }
@@ -172,12 +178,30 @@ var _ = {};
 
     // Extend a given object with all the properties of the passed in
     // object(s).
-    _.extend = function (obj) {
+    _.extend = function (obj1) {
+        for (var i = 1; i < arguments.length; i++) {
+            var o = arguments[i];
+            for (var k in o) {
+                obj1[k] = o[k];
+            }
+        }
+        return obj1;
     };
+
 
     // Like extend, but doesn't ever overwrite a key that already
     // exists in obj
     _.defaults = function (obj) {
+        for (var i = 1; i < arguments.length; i++) {
+            var o = arguments[i];
+            for (var k in o) {
+                if ()
+                obj1[k] = o[k];
+            }
+        }
+        return obj1;
+
+
     };
 
 
