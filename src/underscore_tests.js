@@ -113,7 +113,9 @@ var _ = {};
             if (typeof methodName === 'function') {
                 result.push(methodName.apply(elem, args));
             }
-            result.push(elem[methodName](args));
+            else {
+                result.push(elem[methodName]());
+            }
         });
         return result;
     };
@@ -309,5 +311,5 @@ var _ = {};
     // Only the elements present in just the first array will remain.
     _.difference = function (array) {
     };
-
+    
 }).call(this);
