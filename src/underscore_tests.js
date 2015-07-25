@@ -142,17 +142,14 @@ var _ = {};
 
     // Determine whether all of the elements match a truth test.
     _.every = function (collection, iterator) {
-        var i;
-        if (iterator) {
-            for (i in collection) {
-                if (!iterator(collection[i])) return false;
-                return true;
+        if (collection.length && iterator) {
+            for (var e in collection) {
+                if ((collection[e]) === false) return false;
+                else if (!(iterator(collection[e]))) return false;
             }
-        }
-        for (i in collection) {
-            if (!collection[i]) return false;
             return true;
         }
+        return true;
     };
 
     // Determine whether any of the elements pass a truth test. If no iterator is
@@ -247,7 +244,7 @@ var _ = {};
     // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
     // call someFunction('a', 'b') after 500ms
     _.delay = function (func, wait) {
-        
+
     };
 
 
@@ -269,11 +266,38 @@ var _ = {};
     // Example:
     // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
     _.zip = function () {
+        var args = [], result = [];
+        for (var i = 0; i < arguments.length; i++) {
+            args.push(arguments[i]);
+        }
+        var longest = args.reduce(function (acc, e, i, arr) {
+            if (e.length > acc.length) return e;
+            return acc;
+        });
+        var index = 0;
+        for (i = 0; i < longest.length; i++) {
+            var zipped = [];
+            for (var e = 0; e < args.length; e++) {
+                zipped.push(args[e][index]);
+            }
+            result.push(zipped);
+            index++;
+        }
+        return result;
     };
 
     // Takes a multidimensional array and converts it to a one-dimensional array.
     // The new array should contain all elements of the multidimensional array.
     _.flatten = function (nestedArray, result) {
+        if (typeof nestedArray !== "object") {
+            return nestedArray;
+        }
+        else if (typeof nestedArray === "object" && nestedArray.length === 1) {
+            return _.flatten(nestedArray[0]);
+        }
+        else {
+            return [].concat(_.flatten(nestedArray[0]), _.flatten(nestedArray.slice(1)));
+        }
     };
 
     // Takes an arbitrary number of arrays and produces an array that contains
